@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Srinu Konapala | Senior Technical Lead</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #090e1a;
+    --surface: #0f1724;
+    --card: #131d2e;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e2eaf5;
+    --muted: #7a92b0;
+    --heading: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID NOISE BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 6vw;
+    background: rgba(9,14,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 6vw 4rem;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--heading);
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .hero-sub {
+    max-width: 600px;
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    background: var(--card);
+    transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 1s;
+  }
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: #33ddff; transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-outline:hover { background: rgba(0,212,255,0.08); transform: translateY(-2px); }
+
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(0,212,255,0.06); top: 10%; right: -100px; }
+  .orb2 { width: 300px; height: 300px; background: rgba(124,58,237,0.07); bottom: 20%; left: -80px; }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .stat {
+    background: var(--surface);
+    padding: 2rem 2.5rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    color: var(--accent);
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-wrap { padding: 6rem 6vw; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--heading);
+    margin-bottom: 3rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 500; }
+
+  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .contact-list .icon { color: var(--accent); font-size: 1rem; }
+  .contact-list a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .contact-list a:hover { color: var(--accent); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+  .skill-card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 4px;
+    color: var(--text);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--surface); }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-left { padding-top: 0.2rem; }
+
+  .timeline-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-company {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .timeline-right {}
+
+  .timeline-role {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--heading);
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-project {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .timeline-bullets li {
+    color: var(--muted);
+    font-size: 0.93rem;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .timeline-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent3);
+    font-size: 0.8rem;
+  }
+
+  .timeline-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .tech-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.25);
+    border-radius: 100px;
+    color: #a78bfa;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-client {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent3);
+    margin-bottom: 1rem;
+  }
+
+  .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+  /* ── CERTS ── */
+  #certs { background: var(--surface); }
+
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent3); }
+
+  .cert-icon { font-size: 1.5rem; }
+  .cert-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--heading); }
+  .cert-issuer { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .nav-links { display: none; }
+    h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">SK</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certifications</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-tag">// Senior Technical Lead</div>
+  <h1>Srinu<br/><span>Konapala</span></h1>
+  <p class="hero-sub">Building cloud-native APIs, microservices, and intelligent systems. 13+ years engineering backend infrastructure for automotive, insurance, and enterprise domains.</p>
+  <div class="hero-chips">
+    <span class="chip">Node.js</span>
+    <span class="chip">AWS Lambda</span>
+    <span class="chip">Microservices</span>
+    <span class="chip">Python</span>
+    <span class="chip">RAG / LLM</span>
+    <span class="chip">TypeScript</span>
+    <span class="chip">Kafka</span>
+    <span class="chip">Docker</span>
+  </div>
+  <div class="hero-cta">
+    <a href="mailto:mr.shreenu21@gmail.com" class="btn btn-primary">Get in Touch</a>
+    <a href="#experience" class="btn btn-outline">View Experience</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat reveal">
+    <span class="stat-num">13+</span>
+    <span class="stat-label">Years Experience</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">4</span>
+    <span class="stat-label">Companies</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">10+</span>
+    <span class="stat-label">Projects Delivered</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">40%</span>
+    <span class="stat-label">Integration Time Saved</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">95%</span>
+    <span class="stat-label">Manual Work Reduced</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">// 01 — About</div>
+    <h2>Who I Am</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Senior Technical Lead</strong> specializing in cloud-native API architecture, microservices, and backend systems. Based in <strong>Franklin, Tennessee</strong>, I currently lead modernization efforts at Tech Mahindra for Nissan North America.</p>
+        <p>My work spans migrating legacy <strong>Java/EJB/WebSphere</strong> monoliths to scalable <strong>Node.js microservices on AWS</strong>, designing event-driven architectures with <strong>Kafka and Step Functions</strong>, and building intelligent automation with <strong>Python OCR pipelines</strong>.</p>
+        <p>I'm actively integrating <strong>RAG pipelines and LLM-powered workflows</strong> into backend services — enabling intelligent decisioning and automation across enterprise domains.</p>
+        <p>Beyond code, I lead cross-functional teams, drive agile delivery, and bridge engineering with business goals.</p>
+      </div>
+      <div class="reveal">
+        <ul class="contact-list">
+          <li><span class="icon">📍</span> Franklin, Tennessee, USA (Open to Relocation)</li>
+          <li><span class="icon">📧</span> <a href="mailto:mr.shreenu21@gmail.com">mr.shreenu21@gmail.com</a></li>
+          <li><span class="icon">📞</span> +1 (945) 544-7958</li>
+          <li><span class="icon">🔗</span> <a href="https://linkedin.com" target="_blank">LinkedIn Profile</a></li>
+          <li><span class="icon">🏢</span> Tech Mahindra Americas (Current)</li>
+          <li><span class="icon">🎓</span> BCA – Indira Gandhi National Open University</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">// 02 — Skills</div>
+    <h2>Technical Expertise</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Backend & Runtime</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">NestJS</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">GraphQL</span>
+          <span class="skill-tag">Sequelize</span>
+          <span class="skill-tag">Knex.js</span>
+          <span class="skill-tag">Serverless-Express</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">JavaScript ES6+</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">PHP</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Cloud & Infrastructure</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS Lambda</span>
+          <span class="skill-tag">AWS ECS</span>
+          <span class="skill-tag">API Gateway</span>
+          <span class="skill-tag">S3</span>
+          <span class="skill-tag">Step Functions</span>
+          <span class="skill-tag">MSK / Kafka</span>
+          <span class="skill-tag">VPC</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Serverless</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">AI & Intelligent Systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RAG Pipelines</span>
+          <span class="skill-tag">LLM Integration</span>
+          <span class="skill-tag">Agentic AI</span>
+          <span class="skill-tag">TesseractOCR</span>
+          <span class="skill-tag">Python ML</span>
+          <span class="skill-tag">AI Automation</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">API & Protocols</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RESTful APIs</span>
+          <span class="skill-tag">SOAP</span>
+          <span class="skill-tag">XML/XSD</span>
+          <span class="skill-tag">WebAssembly</span>
+          <span class="skill-tag">JSON</span>
+          <span class="skill-tag">OAuth2</span>
+          <span class="skill-tag">JWT</span>
+          <span class="skill-tag">AWS Cognito</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">MSSQL</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Testing & Observability</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Jest</span>
+          <span class="skill-tag">Artillery.io</span>
+          <span class="skill-tag">Autocannon</span>
+          <span class="skill-tag">Distributed Tracing</span>
+          <span class="skill-tag">Monitoring & Logging</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-title">Architecture & Methods</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">Event-Driven Design</span>
+          <span class="skill-tag">Circuit Breaker</span>
+          <span class="skill-tag">MVC</span>
+          <span class="skill-tag">Agile / Scrum</span>
+          <span class="skill-tag">Code Reviews</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label">// 03 — Experience</div>
+    <h2>Work History</h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="timeline-period">Jan 2025 — Present</div>
+          <div class="timeline-company">Tech Mahindra Americas<br/>New Jersey, USA</div>
+        </div>
+        <div class="timeline-right">
+          <div class="timeline-role">Technical Lead / Software Developer</div>
+          <div class="timeline-project">DBS Modernization · Nissan North America, Franklin TN</div>
+          <ul class="timeline-bullets">
+            <li>Migrated monolithic Java dealer management system to Node.js microservices on AWS ECS — improved scalability and accelerated deployment cycles.</li>
+            <li>Designed dynamic SOAP routers with Node.js and WebAssembly, processing thousands of XML transactions daily at &lt;400ms latency.</li>
+            <li>Built REST and SOAP APIs with Express.js, Lambda, and Serverless supporting 100+ client endpoints.</li>
+            <li>Developed Kafka-based outbound integration framework, reducing partner integration times by 40%.</li>
+            <li>Led agile delivery across 1 onsite + 4 offshore engineers; reduced XML parsing errors by 90% via XSD/WebAssembly validation.</li>
+          </ul>
+          <div class="timeline-tech">
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">AWS ECS</span>
+            <span class="tech-pill">Kafka</span>
+            <span class="tech-pill">WebAssembly</span>
+            <span class="tech-pill">TypeScript</span>
+            <span class="tech-pill">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="timeline-period">Sep 2022 — Jan 2025</div>
+          <div class="timeline-company">Tech Mahindra Ltd.<br/>Vizag, India</div>
+        </div>
+        <div class="timeline-right">
+          <div class="timeline-role">Technical Lead</div>
+          <div class="timeline-project">NSH (National Service History) · Nissan North America</div>
+          <ul class="timeline-bullets">
+            <li>Re-architected legacy Java workflows into AWS Lambda + API Gateway Node.js microservices, reducing latency and maintenance overhead.</li>
+            <li>Optimized PostgreSQL/Knex.js queries, halving response time for high-traffic endpoints.</li>
+            <li>Integrated third-party rewards and analytics APIs, improving customer engagement.</li>
+            <li>Managed distributed team of 3 engineers across US and India with consistent sprint delivery.</li>
+          </ul>
+          <div class="timeline-tech">
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">AWS Lambda</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">Knex.js</span>
+            <span class="tech-pill">API Gateway</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="timeline-period">Dec 2020 — Aug 2022</div>
+          <div class="timeline-company">Patra India Pvt Ltd<br/>Vizag, India</div>
+        </div>
+        <div class="timeline-right">
+          <div class="timeline-role">Senior Developer</div>
+          <div class="timeline-project">CertVault · Patra Corporation, El Dorado Hills, CA</div>
+          <ul class="timeline-bullets">
+            <li>Built full-stack Certificate OCR platform using Python TesseractOCR, ImageMagick, AWS Step Functions, and Node.js APIs — reduced manual entry by 95%.</li>
+            <li>Architected RESTful APIs with Node.js, Express, Sequelize, MySQL supporting hundreds of concurrent uploads daily.</li>
+            <li>Refactored monolith into microservices with event-driven workflows, enabling 2x system throughput.</li>
+            <li>Published private npm package for Python OCR execution, standardizing developer workflows.</li>
+          </ul>
+          <div class="timeline-tech">
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">TesseractOCR</span>
+            <span class="tech-pill">Step Functions</span>
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">MySQL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="timeline-period">May 2018 — Sep 2020</div>
+          <div class="timeline-company">Patra India Pvt Ltd<br/>Vizag, India</div>
+        </div>
+        <div class="timeline-right">
+          <div class="timeline-role">Node.js Developer</div>
+          <div class="timeline-project">Expenses Tracker · Patra Corporation</div>
+          <ul class="timeline-bullets">
+            <li>Built RESTful APIs with Express.js and Sequelize for multi-step expense approval workflows.</li>
+            <li>Implemented GraphQL aggregator APIs for consolidated reporting and analytics.</li>
+            <li>Added SSO via AWS Cognito enabling secure multi-provider authentication.</li>
+          </ul>
+          <div class="timeline-tech">
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">GraphQL</span>
+            <span class="tech-pill">AWS Cognito</span>
+            <span class="tech-pill">Jest</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <div class="timeline-period">May 2012 — Apr 2018</div>
+          <div class="timeline-company">Schemax Technologies<br/>Vizag, India</div>
+        </div>
+        <div class="timeline-right">
+          <div class="timeline-role">Senior Developer</div>
+          <div class="timeline-project">Warehouse Management · BrandiX | MCA-Connect | Citizen Services</div>
+          <ul class="timeline-bullets">
+            <li>Built real-time warehouse tracking with barcode scanning, improving inventory accuracy.</li>
+            <li>Architected HRM, timesheets, and service management modules using Laravel and MySQL.</li>
+            <li>Automated monthly processes with cron jobs, saving 8+ hours/month in manual work.</li>
+          </ul>
+          <div class="timeline-tech">
+            <span class="tech-pill">Express.js</span>
+            <span class="tech-pill">Laravel</span>
+            <span class="tech-pill">MySQL</span>
+            <span class="tech-pill">PHP</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">// 04 — Projects</div>
+    <h2>Key Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">01 / Automotive</div>
+        <div class="project-title">DBS Modernization</div>
+        <div class="project-client">Nissan North America</div>
+        <p class="project-desc">Migrated monolithic Java dealer management system to cloud-native Node.js microservices on AWS ECS. Built SOAP routers with WebAssembly achieving &lt;400ms latency on thousands of daily XML transactions.</p>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">02 / Automotive</div>
+        <div class="project-title">National Service History</div>
+        <div class="project-client">Nissan North America</div>
+        <p class="project-desc">Re-architected legacy Java workflows into AWS Lambda microservices. Optimized PostgreSQL performance, halving query response times on high-traffic endpoints serving global dealer networks.</p>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">03 / Insurance</div>
+        <div class="project-title">CertVault — OCR Platform</div>
+        <div class="project-client">Patra Corporation</div>
+        <p class="project-desc">Full-stack certificate automation platform using Python TesseractOCR and AWS Step Functions. Reduced manual data entry by 95%, processing thousands of documents monthly with high accuracy.</p>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">04 / Government</div>
+        <div class="project-title">Online Citizen Service Portal</div>
+        <div class="project-client">GVMC Municipal Corporation</div>
+        <p class="project-desc">Built secure property and water tax payment portal integrating Citrus payment gateway. Delivered real-time admin dashboards and cross-database sync between MySQL and MSSQL.</p>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">05 / Automotive</div>
+        <div class="project-title">Dealers Management System</div>
+        <div class="project-client">Varun Group</div>
+        <p class="project-desc">Inventory, sales, and transfer modules for multi-location auto dealership. Real-time reporting APIs and responsive admin UI supporting 5+ dealer locations.</p>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">06 / Logistics</div>
+        <div class="project-title">Warehouse Location Management</div>
+        <div class="project-client">BrandiX</div>
+        <p class="project-desc">Real-time warehouse tracking system with barcode scanning integration. High-volume backend APIs with Express.js and Sequelize for inventory accuracy and loss reduction.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="section-wrap">
+    <div class="section-label">// 05 — Certifications</div>
+    <h2>Certifications & Training</h2>
+    <div class="certs-grid">
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🤖</div>
+        <div>
+          <div class="cert-name">AI White Belt L1 V1</div>
+          <div class="cert-issuer">Tech Mahindra</div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🧠</div>
+        <div>
+          <div class="cert-name">AI-101</div>
+          <div class="cert-issuer">Tech Mahindra</div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚙️</div>
+        <div>
+          <div class="cert-name">GitHub Copilot L1 V1</div>
+          <div class="cert-issuer">Tech Mahindra</div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">☁️</div>
+        <div>
+          <div class="cert-name">AWS — Practical Experience</div>
+          <div class="cert-issuer">ECS · Lambda · MSK · API Gateway</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Srinu Konapala</div>
+  <div class="footer-copy">© 2025 · Franklin, Tennessee</div>
+  <div class="footer-links">
+    <a href="mailto:mr.shreenu21@gmail.com">Email</a>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    <a href="#hero">↑ Top</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
